@@ -13,7 +13,6 @@ template <typename MType> class CMatrice
    private:
         unsigned int uiMATColonne;
         unsigned int uiMATLigne;
-        MType type; //PAS NECESSAIRE A MON AVISS
         vector < vector<MType> > Tmatrice;
 
 
@@ -83,7 +82,7 @@ template <typename MType> class CMatrice
 
         void setNMATLigne(unsigned int uiLigne)
         {
-             this->uiMATColonne = uiLigne;
+             this->uiMATLigne = uiLigne;
         }
 
 
@@ -194,10 +193,10 @@ template <typename MType> class CMatrice
 
         CMatrice<MType> operator*(CMatrice<MType> &MATParam)
         {
-             unsigned int uiLigneCpt1;
-             unsigned int uiColonneCpt;
-             unsigned int uiLigneCpt2;
-
+             unsigned int uiLigneCpt1=0;
+             unsigned int uiColonneCpt=0;
+             unsigned int uiLigneCpt2=0;
+			 MType tempSomme = 0;
               CMatrice <MType> MATProduit(this->getNMATLigne(), MATParam.getNMATColonne());
 
                     unsigned int uiColonnes = MATParam.getNMATColonne();
@@ -212,18 +211,19 @@ template <typename MType> class CMatrice
                 {
 
                         unsigned int uiIterateur1,uiIterateur2;
-                        for(uiIterateur1=0; uiIterateur1< uiLignes; uiIterateur1++){
-                            for(uiIterateur2=0; uiIterateur2 < uiColonnes; uiIterateur2++){
+                        for(uiIterateur1=0; uiIterateur1< MATProduit.getNMATLigne(); uiIterateur1++){
+                            for(uiIterateur2=0; uiIterateur2 < MATProduit.getNMATColonne(); uiIterateur2++){
                                     MATProduit(uiIterateur1,uiIterateur2)=0;
                             }
                          }
 
-                    for (uiLigneCpt1 = 0; uiLigneCpt1 < uiLignes ; uiLigneCpt1++){
-                        for(uiColonneCpt = 0; uiColonneCpt  < uiColonnes; uiColonneCpt++){
+                    for (uiLigneCpt1 = 0; uiLigneCpt1 < MATProduit.getNMATLigne(); uiLigneCpt1++){
+                        for(uiColonneCpt = 0; uiColonneCpt  < MATProduit.getNMATColonne(); uiColonneCpt++){
+							tempSomme == 0;
                                  for (uiLigneCpt2 = 0; uiLigneCpt2 < uiLignes; uiLigneCpt2++){
-                                    MATProduit(uiLigneCpt1,uiColonneCpt) = (this->Tmatrice[uiLigneCpt1][uiLigneCpt2])*(MATParam(uiLigneCpt2,uiColonneCpt));
-                                    //MType result = MATProduit(uiLigneCpt1,uiColonneCpt);
+                                    tempSomme +=(this->Tmatrice[uiLigneCpt1][uiLigneCpt2])*(MATParam(uiLigneCpt2,uiColonneCpt));
                                  }
+								 MATProduit(uiLigneCpt1, uiColonneCpt) = tempSomme;
                         }
                     }
 
@@ -326,3 +326,4 @@ template <typename MType> class CMatrice
 };
 //#include "CMatrice.cpp"
 #endif //CMATRICE_H
+
